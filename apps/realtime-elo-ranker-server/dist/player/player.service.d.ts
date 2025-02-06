@@ -1,5 +1,5 @@
 import { Player } from '../bd/player.entity';
-import { AppService } from 'src/app.service';
+import { AppService } from '../app.service';
 export declare class PlayerService {
     private readonly appService;
     constructor(appService: AppService);

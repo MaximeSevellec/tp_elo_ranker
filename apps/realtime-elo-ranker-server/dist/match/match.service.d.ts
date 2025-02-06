@@ -1,6 +1,6 @@
 import { PlayerService } from '../player/player.service';
 import { MatchResultDto } from './match.controller';
-import { AppService } from 'src/app.service';
+import { AppService } from '../app.service';
 export declare class MatchService {
     private readonly playerService;
     private readonly appService;
