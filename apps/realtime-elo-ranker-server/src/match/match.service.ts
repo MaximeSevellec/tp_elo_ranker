@@ -1,18 +1,19 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { PlayerService } from '../player/player.service';
 import { MatchResultDto } from './match.controller';
+import { AppService } from '../app.service';
 
 @Injectable()
 export class MatchService {
     private readonly K = 32;
 
-    constructor(private readonly playerService: PlayerService) {}
+    constructor(private readonly playerService: PlayerService, private readonly appService: AppService) {}
 
-    updateRankings(matchResultDto: MatchResultDto) {
+    async updateRankings(matchResultDto: MatchResultDto) {
         const { winner, loser, draw } = matchResultDto;
 
-        const winnerPlayer = this.playerService.getPlayer(winner);
-        const loserPlayer = this.playerService.getPlayer(loser);
+        const winnerPlayer = await this.playerService.getPlayer(winner);
+        const loserPlayer = await this.playerService.getPlayer(loser);
 
         if (winnerPlayer && loserPlayer) {
         if (!draw && (!winnerPlayer || !loserPlayer)) {
@@ -51,6 +52,7 @@ export class MatchService {
 
         this.playerService.updatePlayer(winnerPlayer);
         this.playerService.updatePlayer(loserPlayer);
+        this.appService.sendRankingUpdateEvents(winnerPlayer);
 
         return {
             code: 200,

@@ -17,12 +17,22 @@ const match_controller_1 = require("./match/match.controller");
 const match_service_1 = require("./match/match.service");
 const ranking_service_1 = require("./ranking/ranking.service");
 const ranking_event_controller_1 = require("./ranking/ranking-event/ranking-event.controller");
+const event_emitter_1 = require("@nestjs/event-emitter");
+const typeorm_1 = require("@nestjs/typeorm");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [],
+        imports: [
+            event_emitter_1.EventEmitterModule.forRoot(),
+            typeorm_1.TypeOrmModule.forRoot({
+                type: 'sqlite',
+                database: 'db',
+                entities: [__dirname + '/**/*.entity{.ts,.js}'],
+                synchronize: true,
+            })
+        ],
         controllers: [app_controller_1.AppController, player_controller_1.PlayerController, ranking_controller_1.RankingController, match_controller_1.MatchController, ranking_event_controller_1.RankingEventController],
         providers: [app_service_1.AppService, player_service_1.PlayerService, match_service_1.MatchService, ranking_service_1.RankingService],
     })

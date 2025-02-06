@@ -11,8 +11,8 @@ export declare class MatchController {
         code: number;
         message: string;
         details: {
-            winner: import("../player/player.entity").Player;
-            loser: import("../player/player.entity").Player;
+            winner: import("../bd/player.entity").Player;
+            loser: import("../bd/player.entity").Player;
         };
     } | undefined>;
 }

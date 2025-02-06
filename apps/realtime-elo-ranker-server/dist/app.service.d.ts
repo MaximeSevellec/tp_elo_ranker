@@ -1,3 +1,6 @@
+import { EventEmitter2 } from '@nestjs/event-emitter';
 export declare class AppService {
-    getHello(): string;
+    private readonly eventEmitter;
+    constructor(eventEmitter: EventEmitter2);
+    sendRankingUpdateEvents(data: any): void;
 }

@@ -1,8 +1,10 @@
-import { Player } from './player.entity';
+import { Player } from '../bd/player.entity';
+import { AppService } from 'src/app.service';
 export declare class PlayerService {
-    private players;
-    getPlayers(): Player[];
-    createPlayer(id: string): Player;
-    getPlayer(id: string): Player | undefined;
-    updatePlayer(updatedPlayer: Player): Player;
+    private readonly appService;
+    constructor(appService: AppService);
+    getPlayers(): Promise<Player[]>;
+    createPlayer(id: string): Promise<Player>;
+    getPlayer(id: string): Promise<Player | null>;
+    updatePlayer(updatedPlayer: Player): Promise<Player>;
 }

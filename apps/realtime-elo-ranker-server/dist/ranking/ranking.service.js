@@ -17,7 +17,7 @@ let RankingService = class RankingService {
         this.playerService = playerService;
     }
     getRanking() {
-        return this.playerService.getPlayers().sort((a, b) => b.rank - a.rank);
+        return this.playerService.getPlayers();
     }
 };
 exports.RankingService = RankingService;

@@ -12,15 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MatchService = void 0;
 const common_1 = require("@nestjs/common");
 const player_service_1 = require("../player/player.service");
+const app_service_1 = require("../app.service");
 let MatchService = class MatchService {
-    constructor(playerService) {
+    constructor(playerService, appService) {
         this.playerService = playerService;
+        this.appService = appService;
         this.K = 32;
     }
-    updateRankings(matchResultDto) {
+    async updateRankings(matchResultDto) {
         const { winner, loser, draw } = matchResultDto;
-        const winnerPlayer = this.playerService.getPlayer(winner);
-        const loserPlayer = this.playerService.getPlayer(loser);
+        const winnerPlayer = await this.playerService.getPlayer(winner);
+        const loserPlayer = await this.playerService.getPlayer(loser);
         if (winnerPlayer && loserPlayer) {
             if (!draw && (!winnerPlayer || !loserPlayer)) {
                 throw new common_1.HttpException({
@@ -50,6 +52,7 @@ let MatchService = class MatchService {
             loserPlayer.rank = this.calculateNewRank(loserPlayer.rank, 0, loserWe);
             this.playerService.updatePlayer(winnerPlayer);
             this.playerService.updatePlayer(loserPlayer);
+            this.appService.sendRankingUpdateEvents(winnerPlayer);
             return {
                 code: 200,
                 message: "Résultats du match publiés avec succès",
@@ -70,6 +73,6 @@ let MatchService = class MatchService {
 exports.MatchService = MatchService;
 exports.MatchService = MatchService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [player_service_1.PlayerService])
+    __metadata("design:paramtypes", [player_service_1.PlayerService, app_service_1.AppService])
 ], MatchService);
 //# sourceMappingURL=match.service.js.map
